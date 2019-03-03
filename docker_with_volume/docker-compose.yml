@@ -1,0 +1,46 @@
+version: '3'
+services:
+  static_content:
+    build: 
+      context: ./static_content
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    networks:
+      - app_net
+    ports:
+    - "80:80"
+    container_name: static_content
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    networks:
+      - app_net
+    ports:
+    - "8080:80"
+    container_name: api
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    networks:
+      - app_net
+    ports:
+    - "6379:6379"
+    container_name: redis
+  filebeat:
+    build:
+      context: ./filebeat
+      dockerfile: Dockerfile
+    networks:
+      - app_net
+    container_name: filebeat
+networks:
+   app_net:
+#    volumes:
+#    - logvolume01:/var/log
+volumes:
+  logvolume:
