@@ -1,0 +1,1 @@
+docker run -dit --name static_content -p 8080:80 static_content
