@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-content-deployment
+  namespace: k8s-web-sample
+  labels:
+    app: static-content
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-content
+  template:
+    metadata:
+      labels:
+        app: static-content
+    spec:
+      containers:
+      - name: static-content
+        image: g23988/k8s-web-sample-static_content:latest 
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: static-content-service
+  namespace: k8s-web-sample
+spec:
+  selector:
+    app: static-content
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80

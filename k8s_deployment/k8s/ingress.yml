@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "k8s-web-ingress"
+  namespace: "k8s-web-sample"
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+  labels:
+    app: k8s-web-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/*
+            backend:
+              serviceName: "api-service"
+              servicePort: 80
+          - path: /*
+            backend:
+              serviceName: "static-content-service"
+              servicePort: 80
+
