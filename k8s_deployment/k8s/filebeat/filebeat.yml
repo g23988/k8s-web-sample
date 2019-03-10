@@ -1,0 +1,31 @@
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/containers/*.log
+  tags: ["eks","beta","sre"]
+  document_type: eks
+  fields_under_root: true
+  fields:
+    type: eks
+  symlinks: true
+
+fields_under_root: true
+fields:
+  environment: beta
+
+#output.file:
+#  path: "/tmp/filebeat"
+#  filename: filebeat
+
+output.redis:
+  hosts: ["redis-nonprod.bapls.net:6379"]
+  datatype: "list"
+  key: "filebeat:%{[environment]}:eks:sre"
+
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644

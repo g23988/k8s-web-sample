@@ -6,6 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
+    ingress.kubernetes.io/rewrite-target: /
   labels:
     app: k8s-web-ingress
 spec:
